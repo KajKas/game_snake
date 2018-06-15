@@ -12,7 +12,7 @@ var rightPressed = false;
 var leftPressed = false;
 var upPressed = false;
 var downPressed = false;
-var appleX = (Math.random()*10+1)*(500/appleWidth);
+var appleX = (Math.floor(Math.random()*10)) * appleWidth;
 var appleY = (Math.floor(Math.random()*10)) * appleWidth;
 
 
