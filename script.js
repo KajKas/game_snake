@@ -23,7 +23,7 @@ var direction;
 function snakeLength() {
     var length = 4;
     snake = [];
-    for (var i = length-1; i>=0; i--) {
+    for (var i = 0; i<length; i++) {
         snake.push({x:i, y:0});
     }
 }
@@ -49,51 +49,58 @@ function drawSnake(x, y) {
 
 document.addEventListener("keydown", keyDownHandler, false);
 function keyDownHandler(e) {
-    if (e.keyCode === 39) {
-        rightPressed = true;
+    if (e.keyCode === 39 && direction !== 'left') {
+        // rightPressed = true;
         direction = 'right';
-    } else if (e.keyCode === 37) {
-        leftPressed = true;
+    } else if (e.keyCode === 37 && direction !== 'right') {
+        // leftPressed = true;
         direction = 'left';
     } else if (e.keyCode === 38) {
-        upPressed = true;
+        // upPressed = true;
         direction = 'up';
     } else if (e.keyCode === 40) {
-        downPressed = true;
+        // downPressed = true;
         direction = 'down';
     }
 }
-document.addEventListener("keyup", keyUpHandler, false);
-function keyUpHandler(e) {
-    if (e.keyCode === 39) {
-        rightPressed = false;
-    } else if (e.keyCode === 37) {
-        leftPressed = false;
-    } else if (e.keyCode === 38) {
-        upPressed = false;
-    } else if (e.keyCode === 40) {
-        downPressed = false;
+// document.addEventListener("keyup", keyUpHandler, false);
+// function keyUpHandler(e) {
+//     if (e.keyCode === 39) {
+//         rightPressed = false;
+//     } else if (e.keyCode === 37) {
+//         leftPressed = false;
+//     } else if (e.keyCode === 38) {
+//         upPressed = false;
+//     } else if (e.keyCode === 40) {
+//         downPressed = false;
+//     }
+// }
+
+function runSnake() {
+    if (direction === 'right') {
+
     }
-}
+} runSnake();
 
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // drawApple();
-    snakeLength();
-    var snakeX = snake[0].x;
-    var snakeY = snake[0].y;
+    if (direction === 'left') {
+
+    } else if (direction === 'up') {
+
+    } else if (direction === 'down') {
+        snake.push({x:snake[snake.length-1].x, y:snake[snake.length-1].y+1});
+        snake.shift();
+    } else {
+        snake.push({x:snake[snake.length-1].x+1, y:snake[snake.length-1].y});
+        snake.shift();
+    }
     for (var i=0; i<snake.length; i++) {
-        drawSnake(snake[i].x, snake[i].y)
-    }
-    if (rightPressed) {
-        snakeX += tileSize;
-    } else if (leftPressed) {
-        snakeX -= tileSize;
-    } else if (upPressed) {
-        snakeY -= tileSize;
-    } else if (downPressed) {
-        snakeY += tileSize;
+        drawSnake(snake[i].x, snake[i].y);
     }
 
+}
 
-} setInterval(draw, 80);
+snakeLength();
+
+setInterval(draw, 1000);
