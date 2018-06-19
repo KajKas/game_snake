@@ -85,9 +85,11 @@ function runSnake() {
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (direction === 'left') {
-
+        snake.push({x:snake[snake.length-1].x-1, y:snake[snake.length-1].y});
+        snake.shift();
     } else if (direction === 'up') {
-
+        snake.push({x:snake[snake.length-1].x, y:snake[snake.length-1].y-1});
+        snake.shift();
     } else if (direction === 'down') {
         snake.push({x:snake[snake.length-1].x, y:snake[snake.length-1].y+1});
         snake.shift();
