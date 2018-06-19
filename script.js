@@ -15,8 +15,8 @@ var leftPressed = false;
 var upPressed = false;
 var downPressed = false;
 var direction;
-// var appleX = (Math.floor(Math.random()*10)) * tileSize;
-// var appleY = (Math.floor(Math.random()*10)) * tileSize;
+var appleX = (Math.floor(Math.random()*10)*50);
+var appleY = (Math.floor(Math.random()*10)*50);
 
 
 
@@ -39,13 +39,13 @@ function drawSnake(x, y) {
 
 
 
-// function drawApple() {
-//     ctx.beginPath();
-//     ctx.rect(appleX, appleY, tileSize, tileSize);
-//     ctx.fillStyle = "#3a3fdd";
-//     ctx.fill();
-//     ctx.closePath();
-// }
+function drawApple() {
+    ctx.beginPath();
+    ctx.rect(appleX, appleY, tileSize, tileSize);
+    ctx.fillStyle = "#3a3fdd";
+    ctx.fill();
+    ctx.closePath();
+}
 
 document.addEventListener("keydown", keyDownHandler, false);
 function keyDownHandler(e) {
@@ -100,9 +100,9 @@ function draw() {
     for (var i=0; i<snake.length; i++) {
         drawSnake(snake[i].x, snake[i].y);
     }
-
+    drawApple()
 }
 
 snakeLength();
 
-setInterval(draw, 1000);
+setInterval(draw, 300);
