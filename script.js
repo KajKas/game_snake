@@ -1,10 +1,12 @@
 var canvas = document.getElementById('myCanvas');
 var ctx = canvas.getContext('2d');
-var snake;
+var appleX = randomizeApple();
+var appleY = randomizeApple();
+var appleLocation = {x:appleX, y:appleY};
 var tileSize = 10;
 var direction;
-var appleX = (Math.floor(Math.random()*10)*50);
-var appleY = (Math.floor(Math.random()*10)*50);
+var snake;
+var intervalId;
 
 function snakeLength() {
     var length = 4;
@@ -24,10 +26,14 @@ function drawSnake(x, y) {
 
 function drawApple() {
     ctx.beginPath();
-    ctx.rect(appleX, appleY, tileSize, tileSize);
+    ctx.rect(appleLocation.x, appleLocation.y, tileSize, tileSize);
     ctx.fillStyle = "#3a3fdd";
     ctx.fill();
     ctx.closePath();
+}
+
+function randomizeApple() {
+    return Math.floor(Math.random()*10)*50
 }
 
 function elongateSnake() {
@@ -48,7 +54,10 @@ function elongateSnake() {
                 snake.push({x:snake[snake.length-1].x, y:snake[snake.length-1].y+1});
                 break;
         }
+        appleX = randomizeApple();
+        appleY = randomizeApple();
     }
+    appleLocation = {x:appleX, y:appleY};
 }
 
 document.addEventListener("keydown", keyDownHandler, false);
@@ -57,11 +66,25 @@ function keyDownHandler(e) {
         direction = 'right';
     } else if (e.keyCode === 37 && direction !== 'right') {
         direction = 'left';
-    } else if (e.keyCode === 38) {
+    } else if (e.keyCode === 38 && direction !== 'down') {
         direction = 'up';
-    } else if (e.keyCode === 40) {
+    } else if (e.keyCode === 40 && direction !== 'up') {
         direction = 'down';
     }
+}
+
+function collide() {
+    if (snake[snake.length-1].x < 0 ||
+        snake[snake.length-1].y < 0 ||
+        snake[snake.length-1].x > 50 ||
+        snake[snake.length-1].y > 50) {
+        gameOver()
+    }
+}
+
+function gameOver() {
+    clearInterval(intervalId);
+    setInterval(alert('GAME OVER'), 0);
 }
 
 function draw() {
@@ -82,10 +105,10 @@ function draw() {
     for (var i=0; i<snake.length; i++) {
         drawSnake(snake[i].x, snake[i].y);
     }
-    drawApple();
     elongateSnake();
+    drawApple();
+    collide();
 }
 
 snakeLength();
-
-setInterval(draw, 100);
+intervalId = setInterval(draw, 100);
